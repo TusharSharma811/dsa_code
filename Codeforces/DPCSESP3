@@ -1,0 +1,46 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+const int MOD = 1e9 + 7;
+
+// Function to compute the number of ways recursively with memoization
+int countWays(int x, const vector<int>& coins, vector<int>& dp) {
+    // If the sum is exactly zero, there is one way (using no coins)
+    if (x == 0) return 1;
+    
+    // If the sum becomes negative, no solution exists
+    if (x < 0) return 0;
+
+    // If the result for this sum has already been computed, return it
+    if (dp[x] != -1) return dp[x];
+
+    // Initialize the number of ways to 0
+    dp[x] = 0;
+
+    // Try using each coin and reduce the problem to a smaller subproblem
+    for (int coin : coins) {
+        dp[x] = (dp[x] + countWays(x - coin, coins, dp)) % MOD;
+    }
+
+    return dp[x];
+}
+
+int main() {
+    int n, x;
+    cin >> n >> x;
+
+    vector<int> coins(n);
+    for (int i = 0; i < n; ++i) {
+        cin >> coins[i];
+    }
+
+    // dp[i] will store the number of ways to form sum i
+    // Initialize dp with -1 (to indicate that the result has not been computed)
+    vector<int> dp(x + 1, -1);
+
+    // Get the number of ways to form sum x
+    cout << countWays(x, coins, dp) << endl;
+
+    return 0;
+}
