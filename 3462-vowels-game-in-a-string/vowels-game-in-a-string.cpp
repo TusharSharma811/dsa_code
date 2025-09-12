@@ -5,14 +5,9 @@ public:
         int count = 0 ;
         for(auto ch : s){
             if(vows.find(ch) != string::npos){
-                count++ ;
+                return true ;
             }
         }
-
-        if(count){
-            return true ;
-        }
-
         return false ;
     }
 };
